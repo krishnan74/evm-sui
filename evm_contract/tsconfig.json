@@ -1,11 +1,14 @@
 {
+  "extends": "@1inch/tsconfig",
   "compilerOptions": {
-    "target": "es2020",
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true
-  }
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "moduleDetection": "auto",
+    "outDir": "./dist",
+    "rootDir": "./s",
+    "lib": ["ESNext"],
+    "target": "ES2023",
+    "removeComments": false
+  },
+  "include": ["./src"]
 }
