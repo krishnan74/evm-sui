@@ -52,7 +52,6 @@ module sui_contract::escrow_factory {
 
     /// Create source escrow
     public entry fun create_src_escrow<T>(
-        _factory: &EscrowFactory,
         clock: &Clock,
         coin: Coin<T>,
         safety_deposit_coin: Coin<T>,
@@ -131,10 +130,10 @@ module sui_contract::escrow_factory {
 
     /// Create destination escrow
     public entry fun create_dst_escrow<T>(
-        _factory: &EscrowFactory,
         clock: &Clock,
         coin: Coin<T>,
         safety_deposit_coin: Coin<T>,
+        // Immutables parameters
         order_hash: vector<u8>,
         hashlock: vector<u8>,
         maker: address,
@@ -142,6 +141,7 @@ module sui_contract::escrow_factory {
         token: address,
         amount: u64,
         safety_deposit: u64,
+        // Timelock delays
         dst_withdrawal: u64,
         dst_public_withdrawal: u64,
         dst_cancellation: u64,
