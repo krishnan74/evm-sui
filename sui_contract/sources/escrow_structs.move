@@ -70,4 +70,42 @@ module sui_contract::escrow_structs {
     public fun hashlock(immutables: &Immutables): vector<u8> {
         immutables.hashlock
     }
+
+    /// Creates and returns a new Immutables object
+    public fun new_immutables(
+        hashlock: vector<u8>,
+        maker: address,
+        taker: address,
+        token: address,
+        amount: u64,
+        safety_deposit: u64,
+        timelocks: Timelocks
+    ): Immutables {
+        Immutables {
+            hashlock,
+            maker,
+            taker,
+            token,
+            amount,
+            safety_deposit,
+            timelocks,
+        }
+    }
+
+    public fun new_dst_immutables_complement(
+        maker: address,
+        amount: u64,
+        token: address,
+        safety_deposit: u64,
+        chain_id: u64
+    ): DstImmutablesComplement {
+        DstImmutablesComplement {
+            maker,
+            amount,
+            token,
+            safety_deposit,
+            chain_id,
+        }
+    }
+
 }
