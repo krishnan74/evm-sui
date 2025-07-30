@@ -36,6 +36,7 @@ module sui_contract::escrow_structs {
     }
 
     public struct Immutables has copy, drop, store {
+        order_hash: vector<u8>,
         hashlock: vector<u8>,
         maker: address,
         taker: address,
@@ -61,18 +62,41 @@ module sui_contract::escrow_structs {
         dst_withdrawal: u64,
         dst_public_withdrawal: u64,
         dst_cancellation: u64,
+        deployed_at: u64,
     }
 
+    // Accessor functions
     public fun taker(immutables: &Immutables): address {
         immutables.taker
+    }
+
+    public fun maker(immutables: &Immutables): address {
+        immutables.maker
     }
 
     public fun hashlock(immutables: &Immutables): vector<u8> {
         immutables.hashlock
     }
 
-    /// Creates and returns a new Immutables object
+    public fun token(immutables: &Immutables): address {
+        immutables.token
+    }
+
+    public fun amount(immutables: &Immutables): u64 {
+        immutables.amount
+    }
+
+    public fun safety_deposit(immutables: &Immutables): u64 {
+        immutables.safety_deposit
+    }
+
+    public fun timelocks(immutables: &Immutables): Timelocks {
+        immutables.timelocks
+    }
+
+    // Constructor functions
     public fun new_immutables(
+        order_hash: vector<u8>,
         hashlock: vector<u8>,
         maker: address,
         taker: address,
@@ -82,6 +106,7 @@ module sui_contract::escrow_structs {
         timelocks: Timelocks
     ): Immutables {
         Immutables {
+            order_hash,
             hashlock,
             maker,
             taker,
@@ -108,4 +133,74 @@ module sui_contract::escrow_structs {
         }
     }
 
+    public fun new_timelocks(
+        src_withdrawal: u64,
+        src_public_withdrawal: u64,
+        src_cancellation: u64,
+        src_public_cancellation: u64,
+        dst_withdrawal: u64,
+        dst_public_withdrawal: u64,
+        dst_cancellation: u64,
+        deployed_at: u64,
+    ): Timelocks {
+        Timelocks {
+            src_withdrawal,
+            src_public_withdrawal,
+            src_cancellation,
+            src_public_cancellation,
+            dst_withdrawal,
+            dst_public_withdrawal,
+            dst_cancellation,
+            deployed_at,
+        }
+    }
+
+    public fun new_order_info(
+        salt: vector<u8>,
+        maker: address,
+        taker: address,
+        making_amount: u64,
+        taking_amount: u64,
+        maker_asset: address,
+        taker_asset: address
+    ): OrderInfo {
+        OrderInfo {
+            salt,
+            maker,
+            taker,
+            making_amount,
+            taking_amount,
+            maker_asset,
+            taker_asset
+        }
+    }
+
+    // Timelock accessor functions
+    public fun src_withdrawal_time(timelocks: &Timelocks): u64 {
+        timelocks.deployed_at + timelocks.src_withdrawal
+    }
+
+    public fun src_public_withdrawal_time(timelocks: &Timelocks): u64 {
+        timelocks.deployed_at + timelocks.src_public_withdrawal
+    }
+
+    public fun src_cancellation_time(timelocks: &Timelocks): u64 {
+        timelocks.deployed_at + timelocks.src_cancellation
+    }
+
+    public fun src_public_cancellation_time(timelocks: &Timelocks): u64 {
+        timelocks.deployed_at + timelocks.src_public_cancellation
+    }
+
+    public fun dst_withdrawal_time(timelocks: &Timelocks): u64 {
+        timelocks.deployed_at + timelocks.dst_withdrawal
+    }
+
+    public fun dst_public_withdrawal_time(timelocks: &Timelocks): u64 {
+        timelocks.deployed_at + timelocks.dst_public_withdrawal
+    }
+
+    public fun dst_cancellation_time(timelocks: &Timelocks): u64 {
+        timelocks.deployed_at + timelocks.dst_cancellation
+    }
 }
