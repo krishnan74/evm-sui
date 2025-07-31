@@ -1,5 +1,5 @@
-// ===== resolver.move =====
 module sui_contract::resolver {
+    use std::string::String;
     use sui::coin::{Coin};
     use sui::object::{Self, UID, ID};
     use sui::tx_context::{TxContext, sender};
@@ -49,7 +49,7 @@ module sui_contract::resolver {
         safety_deposit_coin: Coin<T>,
         // Immutables parameters
         order_hash: String,
-        hashlock: String,
+        hashlock: vector<u8>,
         maker: address,
         taker: address,
         token: address,
@@ -108,7 +108,7 @@ module sui_contract::resolver {
         safety_deposit_coin: Coin<T>,
         // Immutables parameters
         order_hash: String,
-        hashlock: String,
+        hashlock: vector<u8>,
         maker: address,
         taker: address,
         token: address,

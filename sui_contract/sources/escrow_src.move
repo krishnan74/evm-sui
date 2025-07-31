@@ -1,6 +1,5 @@
-
-// ===== escrow_src.move =====
 module sui_contract::escrow_src {
+    use std::string::String;
     use sui::coin::{Coin};
     use sui::tx_context::{sender};
     use sui::clock::{Clock};
@@ -37,7 +36,7 @@ module sui_contract::escrow_src {
     }
 
     public struct WithdrawalEvent has copy, drop, store {
-        secret: String,
+        secret: vector<u8>,
         recipient: address,
     }
 
@@ -70,7 +69,7 @@ module sui_contract::escrow_src {
     public entry fun withdraw<T>(
         clock: &Clock,
         mut escrow: SrcEscrow<T>,
-        secret: String,
+        secret: vector<u8>,
         ctx: &mut TxContext
     ) {
         assert!(!escrow.claimed && !escrow.cancelled, E_ALREADY_CLAIMED);
@@ -88,7 +87,7 @@ module sui_contract::escrow_src {
     public entry fun withdraw_to<T>(
         clock: &Clock,
         mut escrow: SrcEscrow<T>,
-        secret: String,
+        secret: vector<u8>,
         target: address,
         ctx: &mut TxContext
     ) {
@@ -107,7 +106,7 @@ module sui_contract::escrow_src {
     public entry fun public_withdraw<T>(
         clock: &Clock,
         mut escrow: SrcEscrow<T>,
-        secret: String,
+        secret: vector<u8>,
         ctx: &mut TxContext
     ) {
         assert!(!escrow.claimed && !escrow.cancelled, E_ALREADY_CLAIMED);
@@ -155,7 +154,7 @@ module sui_contract::escrow_src {
     /// Internal withdrawal logic
     fun withdraw_internal<T>(
         escrow: &mut SrcEscrow<T>,
-        secret: String,
+        secret: vector<u8>,
         target: address,
         ctx: &mut TxContext
     ) {

@@ -1,4 +1,5 @@
 module sui_contract::escrow_structs {
+    use std::string::String;
     
     public struct SwapOrder<T: store> has key, store {
         id: UID,
@@ -18,7 +19,7 @@ module sui_contract::escrow_structs {
     }
 
     public struct EscrowParams has copy, drop, store {
-        hashlock: String,
+        hashlock: vector<u8>,
         timelocks: Timelocks,
         src_safety_deposit: u64,
         dst_safety_deposit: u64,
@@ -37,7 +38,7 @@ module sui_contract::escrow_structs {
 
     public struct Immutables has copy, drop, store {
         order_hash: String,
-        hashlock: String,
+        hashlock: vector<u8>,
         maker: address,
         taker: address,
         token: address,
@@ -97,7 +98,7 @@ module sui_contract::escrow_structs {
     // Constructor functions
     public fun new_immutables(
         order_hash: String,
-        hashlock: String,
+        hashlock: vector<u8>,
         maker: address,
         taker: address,
         token: address,
