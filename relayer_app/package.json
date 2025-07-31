@@ -1,0 +1,34 @@
+{
+  "name": "relayer_app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@1inch/byte-utils": "^2.6.0",
+    "@1inch/cross-chain-sdk": "v0.1.15-rc.0",
+    "@mysten/dapp-kit": "^0.17.1",
+    "@mysten/sui": "^1.37.0",
+    "@mysten/sui.js": "^0.54.1",
+    "@tanstack/react-query": "^5.83.0",
+    "axios": "^1.11.0",
+    "dotenv": "16.4.5",
+    "ethers": "6.13.2",
+    "next": "15.4.3",
+    "prool": "0.0.24",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
