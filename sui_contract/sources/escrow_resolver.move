@@ -28,9 +28,9 @@ module sui_contract::resolver {
     }
 
     // Modifier equivalent for owner-only functions
-    public fun assert_owner(resolver: &Resolver, ctx: &TxContext) {
-        assert!(sender(ctx) == resolver.owner, E_NOT_OWNER);
-    }
+    // public fun assert_owner(resolver: &Resolver, ctx: &TxContext) {
+    //     assert!(sender(ctx) == resolver.owner, E_NOT_OWNER);
+    // }
 
     /// Initialize resolver - called when contract is deployed
     fun init(ctx: &mut TxContext) {
@@ -43,13 +43,13 @@ module sui_contract::resolver {
 
     /// Deploy source escrow with automatic safety deposit handling
     public entry fun deploy_src<T>(
-        resolver: &Resolver,
+        // resolver: &Resolver,
         clock: &Clock,
         coin: Coin<T>,
         safety_deposit_coin: Coin<T>,
         // Immutables parameters
-        order_hash: vector<u8>,
-        hashlock: vector<u8>,
+        order_hash: String,
+        hashlock: String,
         maker: address,
         taker: address,
         token: address,
@@ -70,7 +70,7 @@ module sui_contract::resolver {
         dst_safety_deposit: u64,
         ctx: &mut TxContext
     ) {
-        assert_owner(resolver, ctx);
+        // assert_owner(resolver, ctx);
 
         // Create source escrow
         escrow_factory::create_src_escrow(
@@ -102,13 +102,13 @@ module sui_contract::resolver {
 
     /// Deploy destination escrow
     public entry fun deploy_dst<T>(
-        resolver: &Resolver,
+        // resolver: &Resolver,
         clock: &Clock,
         coin: Coin<T>,
         safety_deposit_coin: Coin<T>,
         // Immutables parameters
-        order_hash: vector<u8>,
-        hashlock: vector<u8>,
+        order_hash: String,
+        hashlock: String,
         maker: address,
         taker: address,
         token: address,
@@ -121,7 +121,7 @@ module sui_contract::resolver {
         src_cancellation_timestamp: u64,
         ctx: &mut TxContext
     ) {
-        assert_owner(resolver, ctx);
+        // assert_owner(resolver, ctx);
 
         escrow_factory::create_dst_escrow(
             clock,

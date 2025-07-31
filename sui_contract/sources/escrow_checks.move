@@ -34,7 +34,7 @@ module sui_contract::escrow_checks {
         assert!(tx_context::sender(ctx) == maker(immutables), E_NOT_TAKER);
     }
 
-    public fun only_valid_secret(secret: vector<u8>, immutables: &Immutables) {
+    public fun only_valid_secret(secret: String, immutables: &Immutables) {
         assert!(vector::length(&secret) > 0, E_INVALID_SECRET_LENGTH);
         let hash = hash::keccak256(&secret);
         assert!(vector::length(&hash) == 32, E_INVALID_HASH_LENGTH);
@@ -96,7 +96,7 @@ module sui_contract::escrow_checks {
         transfer::public_transfer(coin, to);
     }
 
-    public fun keccak_bytes32(secret: vector<u8>) : vector<u8> {
+    public fun keccak_bytes32(secret: String) : String {
         let hash = hash::keccak256(&secret);
         assert!(vector::length(&hash) == 32, E_INVALID_HASH_LENGTH);
         hash

@@ -37,7 +37,7 @@ module sui_contract::escrow_factory {
 
     public struct DstEscrowCreated has copy, drop, store {
         escrow_id: address,
-        hashlock: vector<u8>,
+        hashlock: String,
         taker: address,
     }
 
@@ -55,8 +55,8 @@ module sui_contract::escrow_factory {
         clock: &Clock,
         coin: Coin<T>,
         safety_deposit_coin: Coin<T>,
-        order_hash: vector<u8>,
-        hashlock: vector<u8>,
+        order_hash: String,
+        hashlock: String,
         maker: address,
         taker: address,
         token: address,
@@ -134,8 +134,8 @@ module sui_contract::escrow_factory {
         coin: Coin<T>,
         safety_deposit_coin: Coin<T>,
         // Immutables parameters
-        order_hash: vector<u8>,
-        hashlock: vector<u8>,
+        order_hash: String,
+        hashlock: String,
         maker: address,
         taker: address,
         token: address,
@@ -202,8 +202,8 @@ module sui_contract::escrow_factory {
     //     clock: &Clock,
     //     coin: Coin<T>,
     //     safety_deposit_coin: Coin<T>,
-    //     intent_data: vector<u8>,
-    //     signature: vector<u8>,
+    //     intent_data: String,
+    //     signature: String,
     //     user_address: address,
     //     ctx: &mut TxContext
     // ) {

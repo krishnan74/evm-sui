@@ -37,7 +37,7 @@ module sui_contract::escrow_src {
     }
 
     public struct WithdrawalEvent has copy, drop, store {
-        secret: vector<u8>,
+        secret: String,
         recipient: address,
     }
 
@@ -70,7 +70,7 @@ module sui_contract::escrow_src {
     public entry fun withdraw<T>(
         clock: &Clock,
         mut escrow: SrcEscrow<T>,
-        secret: vector<u8>,
+        secret: String,
         ctx: &mut TxContext
     ) {
         assert!(!escrow.claimed && !escrow.cancelled, E_ALREADY_CLAIMED);
@@ -88,7 +88,7 @@ module sui_contract::escrow_src {
     public entry fun withdraw_to<T>(
         clock: &Clock,
         mut escrow: SrcEscrow<T>,
-        secret: vector<u8>,
+        secret: String,
         target: address,
         ctx: &mut TxContext
     ) {
@@ -107,7 +107,7 @@ module sui_contract::escrow_src {
     public entry fun public_withdraw<T>(
         clock: &Clock,
         mut escrow: SrcEscrow<T>,
-        secret: vector<u8>,
+        secret: String,
         ctx: &mut TxContext
     ) {
         assert!(!escrow.claimed && !escrow.cancelled, E_ALREADY_CLAIMED);
@@ -155,7 +155,7 @@ module sui_contract::escrow_src {
     /// Internal withdrawal logic
     fun withdraw_internal<T>(
         escrow: &mut SrcEscrow<T>,
-        secret: vector<u8>,
+        secret: String,
         target: address,
         ctx: &mut TxContext
     ) {

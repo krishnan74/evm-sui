@@ -8,7 +8,7 @@ module sui_contract::escrow_structs {
     }
 
     public struct OrderInfo has copy, drop, store {
-        salt: vector<u8>,
+        salt: String,
         maker: address,
         taker: address,
         making_amount: u64,
@@ -18,7 +18,7 @@ module sui_contract::escrow_structs {
     }
 
     public struct EscrowParams has copy, drop, store {
-        hashlock: vector<u8>,
+        hashlock: String,
         timelocks: Timelocks,
         src_safety_deposit: u64,
         dst_safety_deposit: u64,
@@ -36,8 +36,8 @@ module sui_contract::escrow_structs {
     }
 
     public struct Immutables has copy, drop, store {
-        order_hash: vector<u8>,
-        hashlock: vector<u8>,
+        order_hash: String,
+        hashlock: String,
         maker: address,
         taker: address,
         token: address,
@@ -96,8 +96,8 @@ module sui_contract::escrow_structs {
 
     // Constructor functions
     public fun new_immutables(
-        order_hash: vector<u8>,
-        hashlock: vector<u8>,
+        order_hash: String,
+        hashlock: String,
         maker: address,
         taker: address,
         token: address,
@@ -156,7 +156,7 @@ module sui_contract::escrow_structs {
     }
 
     public fun new_order_info(
-        salt: vector<u8>,
+        salt: String,
         maker: address,
         taker: address,
         making_amount: u64,
