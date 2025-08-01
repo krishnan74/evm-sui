@@ -178,30 +178,30 @@ module sui_contract::escrow_structs {
 
     // Timelock accessor functions
     public fun src_withdrawal_time(timelocks: &Timelocks): u64 {
-        timelocks.deployed_at + timelocks.src_withdrawal
+        timelocks.src_withdrawal
     }
 
     public fun src_public_withdrawal_time(timelocks: &Timelocks): u64 {
-        timelocks.deployed_at + timelocks.src_public_withdrawal
+        timelocks.src_public_withdrawal
     }
 
     public fun src_cancellation_time(timelocks: &Timelocks): u64 {
-        timelocks.deployed_at + timelocks.src_cancellation
+        timelocks.src_cancellation
     }
 
     public fun src_public_cancellation_time(timelocks: &Timelocks): u64 {
-        timelocks.deployed_at + timelocks.src_public_cancellation
+        timelocks.src_public_cancellation
     }
 
     public fun dst_withdrawal_time(timelocks: &Timelocks): u64 {
-        timelocks.deployed_at + timelocks.dst_withdrawal
+        timelocks.dst_withdrawal
     }
 
     public fun dst_public_withdrawal_time(timelocks: &Timelocks): u64 {
-        timelocks.deployed_at + timelocks.dst_public_withdrawal
+        timelocks.dst_public_withdrawal
     }
 
     public fun dst_cancellation_time(timelocks: &Timelocks): u64 {
-        timelocks.deployed_at + timelocks.dst_cancellation
+        timelocks.dst_cancellation
     }
 }

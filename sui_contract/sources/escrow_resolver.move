@@ -119,6 +119,7 @@ module sui_contract::resolver {
         dst_public_withdrawal_delay: u64,
         dst_cancellation_delay: u64,
         src_cancellation_timestamp: u64,
+        deployed_at: u64,
         ctx: &mut TxContext
     ) {
         // assert_owner(resolver, ctx);
@@ -138,6 +139,7 @@ module sui_contract::resolver {
             dst_public_withdrawal_delay,
             dst_cancellation_delay,
             src_cancellation_timestamp,
+            deployed_at,
             ctx
         );
 

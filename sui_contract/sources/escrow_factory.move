@@ -147,13 +147,12 @@ module sui_contract::escrow_factory {
         dst_public_withdrawal: u64,
         dst_cancellation: u64,
         src_cancellation_timestamp: u64,
+        deployed_at: u64,
         ctx: &mut TxContext
     ) {
         // Validate coin amounts
         assert!(coin::value(&coin) >= amount, E_INSUFFICIENT_COIN_AMOUNT);
         assert!(coin::value(&safety_deposit_coin) >= safety_deposit, E_INSUFFICIENT_SAFETY_DEPOSIT);
-
-        let current_time = timestamp_ms(clock);
         
         // Create minimal timelocks for dst (only dst times matter)
         let timelocks = new_timelocks(
@@ -164,7 +163,7 @@ module sui_contract::escrow_factory {
             dst_withdrawal,
             dst_public_withdrawal,
             dst_cancellation,
-            current_time,
+            deployed_at,
         );
 
         // Check that dst cancellation starts before src cancellation
