@@ -66,17 +66,17 @@ export async function initEVMChain(cnf: ChainConfig): Promise<{
   const evm_resolver_pk = process.env.EVM_RESOLVER_PK!.slice(2);
   const deployer = new SignerWallet(evm_resolver_pk, provider);
 
-  // if (evmResolverContractAddress && evmEscrowFactoryAddress) {
-  //   return {
-  //     node: node,
-  //     provider,
-  //     resolverContract: evmResolverContractAddress,
-  //     escrowFactory: evmEscrowFactoryAddress,
-  //   };
-  // }
+  if (evmResolverContractAddress && evmEscrowFactoryAddress) {
+    return {
+      node: node,
+      provider,
+      resolverContract: evmResolverContractAddress,
+      escrowFactory: evmEscrowFactoryAddress,
+    };
+  }
 
-  // const resolverContractAddress = "0x02f9720c42E86577e160840C11c8dBA9010627Cd";
-  // const escrowFactoryAddress = "0xA162fc8a1700A15eB9e8B734056201205d48124e";
+  const resolverContractAddress = "0x02f9720c42E86577e160840C11c8dBA9010627Cd";
+  const escrowFactoryAddress = "0xA162fc8a1700A15eB9e8B734056201205d48124e";
 
   // deploy EscrowFactory
   const escrowFactory = await deployEVMContract(

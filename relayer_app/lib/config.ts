@@ -56,8 +56,9 @@ export const config = {
       wrappedNative: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
       ownerPrivateKey: "",
       tokens: {
-        SUI: {
-          address: "0x2::sui::SUI",
+        USDC: {
+          address:
+            "0xa1ec7fc00a6f40db9693ad1415d0c193ad3906494428cf252621037bd7117e29::usdc::USDC",
           donor: "0x4188663a85C92EEa35b5AD3AA5cA7CeB237C6fe9",
         },
       },
