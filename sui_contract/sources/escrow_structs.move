@@ -1,23 +1,23 @@
 module sui_contract::escrow_structs {
     use std::string::String;
-    
-    public struct SwapOrder<T: store> has key, store {
-        id: UID,
-        order_info: OrderInfo,
-        escrow_params: EscrowParams,
-        details: Details,
-    }
 
-    public struct OrderInfo has copy, drop, store {
-        salt: String,
+    public struct Order has copy, drop {
+        salt: u256,
         maker: address,
-        taker: address,
-        making_amount: u64,
-        taking_amount: u64,
+        receiver: address,
         maker_asset: address,
         taker_asset: address,
+        making_amount: u256,
+        taking_amount: u256,
     }
 
+    public struct AuctionData has copy, drop {
+        start_time: u64,
+        end_time: u64,
+        taking_amount_start: u256,
+        taking_amount_end: u256,
+    }
+    
     public struct EscrowParams has copy, drop, store {
         hashlock: vector<u8>,
         timelocks: Timelocks,
@@ -95,6 +95,49 @@ module sui_contract::escrow_structs {
         immutables.timelocks
     }
 
+    // Getter functions for Order
+    public fun order_making_amount(order: &Order): u256 {
+        order.making_amount 
+    }
+
+    public fun order_taking_amount(order: &Order): u256 {
+        order.taking_amount
+    }
+
+    public fun order_maker(order: &Order): address {
+        order.maker
+    }
+
+    public fun order_receiver(order: &Order): address {
+        order.receiver
+    }
+
+    public fun order_maker_asset(order: &Order): address {
+        order.maker_asset
+    }
+
+    public fun order_taker_asset(order: &Order): address {
+        order.taker_asset
+    }
+
+    // Getter functions for AuctionData
+    public fun auction_start_time(auction_data: &AuctionData): u64 {
+        auction_data.start_time
+    }
+
+    public fun auction_end_time(auction_data: &AuctionData): u64 {
+        auction_data.end_time
+    }
+
+    public fun auction_taking_amount_start(auction_data: &AuctionData): u256 {
+        auction_data.taking_amount_start
+    }
+
+    public fun auction_taking_amount_end(auction_data: &AuctionData): u256 {
+        auction_data.taking_amount_end
+    }
+
+
     // Constructor functions
     public fun new_immutables(
         order_hash: String,
@@ -156,23 +199,38 @@ module sui_contract::escrow_structs {
         }
     }
 
-    public fun new_order_info(
-        salt: String,
+     /// Create a new Order struct
+    public fun create_order(
+        salt: u256,
         maker: address,
-        taker: address,
-        making_amount: u64,
-        taking_amount: u64,
+        receiver: address,
         maker_asset: address,
-        taker_asset: address
-    ): OrderInfo {
-        OrderInfo {
+        taker_asset: address,
+        making_amount: u256,
+        taking_amount: u256
+    ): Order {
+        Order {
             salt,
             maker,
-            taker,
+            receiver,
+            maker_asset,
+            taker_asset,
             making_amount,
             taking_amount,
-            maker_asset,
-            taker_asset
+        }
+    }
+
+    public fun create_auction_data(
+        start_time: u64,
+        end_time: u64,
+        taking_amount_start: u256,
+        taking_amount_end: u256
+    ): AuctionData {
+        AuctionData {
+            start_time,
+            end_time,
+            taking_amount_start,
+            taking_amount_end,
         }
     }
 
