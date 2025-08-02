@@ -52,10 +52,10 @@ module sui_contract::escrow_factory {
     }
 
     /// Create source escrow
-    public entry fun create_src_escrow<T>(
+    public entry fun create_src_escrow<CoinType1, CoinType2>(
         clock: &Clock,
-        coin: Coin<T>,
-        safety_deposit_coin: Coin<T>,
+        coin: Coin<CoinType1>,
+        safety_deposit_coin: Coin<CoinType2>,
         order_hash: String,
         hashlock: vector<u8>,
         maker: address,
@@ -130,10 +130,10 @@ module sui_contract::escrow_factory {
     }
 
     /// Create destination escrow
-    public entry fun create_dst_escrow<T>(
+    public entry fun create_dst_escrow<CoinType1, CoinType2>(
         clock: &Clock,
-        coin: Coin<T>,
-        safety_deposit_coin: Coin<T>,
+        coin: Coin<CoinType1>,
+        safety_deposit_coin: Coin<CoinType2>,
         // Immutables parameters
         order_hash: String,
         hashlock: vector<u8>,

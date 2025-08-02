@@ -28,7 +28,7 @@ module sui_contract::escrow_src {
     public struct EscrowedCoinKey has copy, drop, store {}
     public struct SafetyDepositKey has copy, drop, store {}
 
-    public struct SrcEscrow<phantom T> has key, store {
+    public struct SrcEscrow<phantom CoinType1, phantom CoinType2> has key, store {
         id: UID,
         immutables: Immutables,
         claimed: bool,
@@ -45,12 +45,12 @@ module sui_contract::escrow_src {
     }
 
     /// Create source escrow with coin and safety deposit
-    public fun create_src_escrow<T>(
-        coin: Coin<T>,
-        safety_deposit_coin: Coin<T>, // For simplicity, using same token type
+    public fun create_src_escrow<CoinType1, CoinType2>(
+        coin: Coin<CoinType1>,
+        safety_deposit_coin: Coin<CoinType2>, // For simplicity, using same token type
         immutables: Immutables,
         ctx: &mut TxContext
-    ): SrcEscrow<T> {
+    ): SrcEscrow<CoinType1, CoinType2> {
         let mut id = object::new(ctx);
         
         // Store the main coin and safety deposit
@@ -66,9 +66,9 @@ module sui_contract::escrow_src {
     }
 
     /// Private withdrawal - only taker with valid secret during withdrawal period
-    public entry fun withdraw<T>(
+    public entry fun withdraw<CoinType1, CoinType2>(
         clock: &Clock,
-        mut escrow: SrcEscrow<T>,
+        mut escrow: SrcEscrow<CoinType1, CoinType2>,
         secret: vector<u8>,
         ctx: &mut TxContext
     ) {
@@ -84,9 +84,9 @@ module sui_contract::escrow_src {
     }
 
     /// Withdraw to specific target
-    public entry fun withdraw_to<T>(
+    public entry fun withdraw_to<CoinType1, CoinType2>(
         clock: &Clock,
-        mut escrow: SrcEscrow<T>,
+        mut escrow: SrcEscrow<CoinType1, CoinType2>,
         secret: vector<u8>,
         target: address,
         ctx: &mut TxContext
@@ -103,9 +103,9 @@ module sui_contract::escrow_src {
     }
 
     /// Public withdrawal - anyone with valid secret during public withdrawal period
-    public entry fun public_withdraw<T>(
+    public entry fun public_withdraw<CoinType1, CoinType2>(
         clock: &Clock,
-        mut escrow: SrcEscrow<T>,
+        mut escrow: SrcEscrow<CoinType1, CoinType2>,
         secret: vector<u8>,
         ctx: &mut TxContext
     ) {
@@ -121,9 +121,9 @@ module sui_contract::escrow_src {
     }
 
     /// Private cancellation - only taker after cancellation period
-    public entry fun cancel<T>(
+    public entry fun cancel<CoinType1, CoinType2>(
         clock: &Clock,
-        mut escrow: SrcEscrow<T>,
+        mut escrow: SrcEscrow<CoinType1, CoinType2>,
         ctx: &mut TxContext
     ) {
         assert!(!escrow.claimed && !escrow.cancelled, E_ALREADY_CANCELLED);
@@ -137,9 +137,9 @@ module sui_contract::escrow_src {
     }
 
     /// Public cancellation - anyone after public cancellation period
-    public entry fun public_cancel<T>(
+    public entry fun public_cancel<CoinType1, CoinType2>(
         clock: &Clock,
-        mut escrow: SrcEscrow<T>,
+        mut escrow: SrcEscrow<CoinType1, CoinType2>,
         ctx: &mut TxContext
     ) {
         assert!(!escrow.claimed && !escrow.cancelled, E_ALREADY_CANCELLED);
@@ -152,8 +152,8 @@ module sui_contract::escrow_src {
     }
 
     /// Internal withdrawal logic
-    fun withdraw_internal<T>(
-        escrow: &mut SrcEscrow<T>,
+    fun withdraw_internal<CoinType1, CoinType2>(
+        escrow: &mut SrcEscrow<CoinType1, CoinType2>,
         secret: vector<u8>,
         target: address,
         ctx: &mut TxContext
@@ -161,11 +161,11 @@ module sui_contract::escrow_src {
         escrow.claimed = true;
         
         // Transfer main coin to target
-        let coin = dof::remove<EscrowedCoinKey, Coin<T>>(&mut escrow.id, EscrowedCoinKey {});
+        let coin = dof::remove<EscrowedCoinKey, Coin<CoinType1>>(&mut escrow.id, EscrowedCoinKey {});
         sui_transfer(coin, target);
         
         // Transfer safety deposit to caller
-        let safety_deposit = dof::remove<SafetyDepositKey, Coin<T>>(&mut escrow.id, SafetyDepositKey {});
+        let safety_deposit = dof::remove<SafetyDepositKey, Coin<CoinType2>>(&mut escrow.id, SafetyDepositKey {});
         sui_transfer(safety_deposit, sender(ctx));
         
         event::emit(WithdrawalEvent { 
@@ -175,8 +175,8 @@ module sui_contract::escrow_src {
     }
 
     /// Internal cancellation logic
-    fun cancel_internal<T>(
-        escrow: &mut SrcEscrow<T>,
+    fun cancel_internal<CoinType1, CoinType2>(
+        escrow: &mut SrcEscrow<CoinType1, CoinType2>,
         ctx: &mut TxContext
     ) {
         escrow.cancelled = true;
@@ -184,11 +184,11 @@ module sui_contract::escrow_src {
         let maker_addr = maker(&escrow.immutables);
         
         // Return main coin to maker
-        let coin = dof::remove<EscrowedCoinKey, Coin<T>>(&mut escrow.id, EscrowedCoinKey {});
+        let coin = dof::remove<EscrowedCoinKey, Coin<CoinType1>>(&mut escrow.id, EscrowedCoinKey {});
         sui_transfer(coin, maker_addr);
         
         // Return safety deposit to caller
-        let safety_deposit = dof::remove<SafetyDepositKey, Coin<T>>(&mut escrow.id, SafetyDepositKey {});
+        let safety_deposit = dof::remove<SafetyDepositKey, Coin<CoinType2>>(&mut escrow.id, SafetyDepositKey {});
         sui_transfer(safety_deposit, sender(ctx));
         
         event::emit(EscrowCancelledEvent { 
@@ -197,7 +197,7 @@ module sui_contract::escrow_src {
     }
 
     /// Destroy empty escrow
-    public fun destroy_escrow<T>(escrow: SrcEscrow<T>) {
+    public fun destroy_escrow<CoinType1, CoinType2>(escrow: SrcEscrow<CoinType1, CoinType2>) {
         let SrcEscrow { id, immutables: _, claimed: _, cancelled: _ } = escrow;
         object::delete(id);
     }

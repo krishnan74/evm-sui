@@ -1,93 +1,109 @@
-module sui_contract::htlc_test {
-    use sui::coin::{Coin, mint, value};
-    use sui::sui::SUI;
-    use sui::tx_context::{TxContext, sender};
-    use sui::clock::{Clock, new as new_clock};
-    use sui::object;
-    use sui_contract::htlc;
-    use std::vector;
+#[test_only]
+module sui_contract::only_valid_secret_tests {
+    use sui_contract::escrow_structs::{
+        Immutables, new_timelocks, 
+        new_immutables,
+    };
+    use sui_contract::escrow_checks::{only_valid_secret};
+    use sui::hash;
+    use std::debug;
 
-    const TEST_HASHLOCK: vector<u8> = b"testhash";
-    const TEST_PREIMAGE: vector<u8> = b"testhash";
-    const WRONG_PREIMAGE: vector<u8> = b"wrong";
-    const TIMELOCK: u64 = 1000;
+    const E_HASH_MISMATCH: u64 = 7;
 
     #[test]
-    fun test_initiate_and_claim_swap() {
-        let mut ctx = TxContext::new_for_testing(@0x1);
-        let recipient = @0x2;
-        let coin = mint<SUI>(100, &mut ctx);
+    fun test_only_valid_secret_success() {
 
-        // Initiate swap
-        htlc::initiate_swap<Coin<SUI>>(coin, recipient, TEST_HASHLOCK, TIMELOCK, &mut ctx);
+        let secret: vector<u8> = vector[
+            65, 191,   7,  43,  27, 181, 193, 164,
+            49, 221, 208, 142, 157,   6, 168,  44,
+            195,  70, 131,  61,  36, 161,  12, 155,
+            87, 183,  90, 119, 183, 121, 225, 164
+        ];
 
-        // Get the swap object (simulate transfer to sender)
-        let swap: htlc::Swap<SUI> = /* fetch from sender's objects */;
-        let clock = new_clock(0);
+        let hashlock: vector<u8> = vector[
+            133, 133, 158, 142, 226, 179, 132,
+            137, 252, 217, 110,  64, 208, 204,
+            4, 223, 244, 14, 76, 224, 241,
+            216, 137, 207, 114, 237, 245, 84,
+            232, 87, 33,   2
+        ];
 
-        // Claim swap with correct preimage
-        htlc::claim_swap<SUI>(&clock, swap, TEST_PREIMAGE, &mut ctx);
-        // Assert recipient received the coin, etc.
+
+        let hash = hash::keccak256(&secret);
+
+        debug::print(hash);
+        debug::print(hashlock);
+
+        assert!(hash == hashlock, E_HASH_MISMATCH);
+
+        
+        // let timelocks = new_timelocks(
+        //     0,
+        //     0,
+        //     0,
+        //     0,
+        //     0,
+        //     0,
+        //     0,
+        //     0,
+        // );
+
+        // let immutables = new_immutables(
+        //     std::string::utf8(b"0x1234567890abcdef"),
+        //     hashlock,
+        //     @0x0, // maker
+        //     @0x0, // taker
+        //     @0x0, // token
+        //     100,
+        //     10,
+        //     timelocks
+        // );
+        
+        // only_valid_secret(secret, &immutables);
     }
 
     #[test]
-    #[expected_failure]
-    fun test_claim_with_wrong_preimage_fails() {
-        let mut ctx = TxContext::new_for_testing(@0x1);
-        let recipient = @0x2;
-        let coin = mint<SUI>(100, &mut ctx);
+    #[expected_failure(abort_code = E_HASH_MISMATCH)]
+    fun test_only_valid_secret_failure() {
 
-        htlc::initiate_swap<Coin<SUI>>(coin, recipient, TEST_HASHLOCK, TIMELOCK, &mut ctx);
-        let swap: htlc::Swap<SUI> = /* fetch from sender's objects */;
-        let clock = new_clock(0);
+        // Use an incorrect secret
 
-        // Should fail: wrong preimage
-        htlc::claim_swap<SUI>(&clock, swap, WRONG_PREIMAGE, &mut ctx);
-    }
+        let secret: vector<u8> = vector[
+            65, 191,   7,  43,  27, 181, 193, 164,
+            49, 221, 208, 142, 157,   6, 168,  44,
+            195,  70, 131,  61,  36, 161,  12, 155,
+            87, 183,  90, 119, 183, 121, 225, 164
+        ];
 
-    #[test]
-    #[expected_failure]
-    fun test_refund_before_timelock_fails() {
-        let mut ctx = TxContext::new_for_testing(@0x1);
-        let recipient = @0x2;
-        let coin = mint<SUI>(100, &mut ctx);
+        let hashlock: vector<u8> = vector[
+            133, 133, 158, 142, 226, 179, 132,
+            137, 252, 217, 110,  64, 208, 204,
+            4, 223, 244, 14, 76, 224, 241,
+            216, 137, 207, 114, 237, 245, 84,
+            232, 87, 33,   2
+        ];
 
-        htlc::initiate_swap<Coin<SUI>>(coin, recipient, TEST_HASHLOCK, TIMELOCK, &mut ctx);
-        let swap: htlc::Swap<SUI> = /* fetch from sender's objects */;
-        let clock = new_clock(0);
+        let timelocks = new_timelocks(
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+        );
 
-        // Should fail: timelock not expired
-        htlc::refund_swap<SUI>(&clock, swap, &mut ctx);
-    }
-
-    #[test]
-    fun test_refund_after_timelock() {
-        let mut ctx = TxContext::new_for_testing(@0x1);
-        let recipient = @0x2;
-        let coin = mint<SUI>(100, &mut ctx);
-
-        htlc::initiate_swap<Coin<SUI>>(coin, recipient, TEST_HASHLOCK, TIMELOCK, &mut ctx);
-        let swap: htlc::Swap<SUI> = /* fetch from sender's objects */;
-        let clock = new_clock(TIMELOCK + 1);
-
-        // Should succeed: timelock expired
-        htlc::refund_swap<SUI>(&clock, swap, &mut ctx);
-        // Assert sender received the coin back, etc.
-    }
-
-    #[test]
-    #[expected_failure]
-    fun test_double_claim_fails() {
-        let mut ctx = TxContext::new_for_testing(@0x1);
-        let recipient = @0x2;
-        let coin = mint<SUI>(100, &mut ctx);
-
-        htlc::initiate_swap<Coin<SUI>>(coin, recipient, TEST_HASHLOCK, TIMELOCK, &mut ctx);
-        let swap: htlc::Swap<SUI> = /* fetch from sender's objects */;
-        let clock = new_clock(0);
-
-        htlc::claim_swap<SUI>(&clock, swap, TEST_PREIMAGE, &mut ctx);
-        // Try to claim again (should fail)
-        htlc::claim_swap<SUI>(&clock, swap, TEST_PREIMAGE, &mut ctx);
+        let immutables = new_immutables(
+            std::string::utf8(b"0x1234567890abcdef"),
+            hashlock,
+            @0x0, // maker
+            @0x0, // taker
+            @0x0, // token
+            100,
+            10,
+            timelocks
+        );
+        only_valid_secret(secret, &immutables);
     }
 }

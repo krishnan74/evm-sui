@@ -42,11 +42,11 @@ module sui_contract::resolver {
     }
 
     /// Deploy source escrow with automatic safety deposit handling
-    public entry fun deploy_src<T>(
+    public entry fun deploy_src<CoinType1, CoinType2>(
         // resolver: &Resolver,
         clock: &Clock,
-        coin: Coin<T>,
-        safety_deposit_coin: Coin<T>,
+        coin: Coin<CoinType1>,
+        safety_deposit_coin: Coin<CoinType2>,
         // Immutables parameters
         order_hash: String,
         hashlock: vector<u8>,
@@ -101,11 +101,11 @@ module sui_contract::resolver {
     }
 
     /// Deploy destination escrow
-    public entry fun deploy_dst<T>(
+    public entry fun deploy_dst<CoinType1, CoinType2>(
         // resolver: &Resolver,
         clock: &Clock,
-        coin: Coin<T>,
-        safety_deposit_coin: Coin<T>,
+        coin: Coin<CoinType1>,
+        safety_deposit_coin: Coin<CoinType2>,
         // Immutables parameters
         order_hash: String,
         hashlock: vector<u8>,
@@ -146,106 +146,106 @@ module sui_contract::resolver {
     }
 
     /// Withdraw from source escrow (anyone can call)
-    public entry fun withdraw_src<T>(
+    public entry fun withdraw_src<CoinType1, CoinType2>(
         clock: &Clock,
-        escrow: SrcEscrow<T>,
+        escrow: SrcEscrow<CoinType1, CoinType2>,
         secret: vector<u8>,
         ctx: &mut TxContext
     ) {
         let escrow_id = object::id(&escrow);
-        
-        escrow_src::withdraw<T>(clock, escrow, secret, ctx);
+
+        escrow_src::withdraw<CoinType1, CoinType2>(clock, escrow, secret, ctx);
 
     }
 
     /// Withdraw from source escrow to specific target (anyone can call)
-    public entry fun withdraw_src_to<T>(
+    public entry fun withdraw_src_to<CoinType1, CoinType2>(
         clock: &Clock,
-        escrow: SrcEscrow<T>,
+        escrow: SrcEscrow<CoinType1, CoinType2>,
         secret: vector<u8>,
         target: address,
         ctx: &mut TxContext
     ) {
         let escrow_id = object::id(&escrow);
-        
-        escrow_src::withdraw_to<T>(clock, escrow, secret, target, ctx);
+
+        escrow_src::withdraw_to<CoinType1, CoinType2>(clock, escrow, secret, target, ctx);
 
     }
 
     /// Public withdraw from source escrow (anyone can call)
-    public entry fun public_withdraw_src<T>(
+    public entry fun public_withdraw_src<CoinType1, CoinType2>(
         clock: &Clock,
-        escrow: SrcEscrow<T>,
+        escrow: SrcEscrow<CoinType1, CoinType2>,
         secret: vector<u8>,
         ctx: &mut TxContext
     ) {
         let escrow_id = object::id(&escrow);
         
-        escrow_src::public_withdraw<T>(clock, escrow, secret, ctx);
+        escrow_src::public_withdraw<CoinType1, CoinType2>(clock, escrow, secret, ctx);
 
 
     }
 
     /// Withdraw from destination escrow (anyone can call)
-    public entry fun withdraw_dst<T>(
+    public entry fun withdraw_dst<CoinType1, CoinType2>(
         clock: &Clock,
-        escrow: DstEscrow<T>,
+        escrow: DstEscrow<CoinType1, CoinType2>,
         secret: vector<u8>,
         ctx: &mut TxContext
     ) {
         let escrow_id = object::id(&escrow);
         
-        escrow_dst::withdraw<T>(clock, escrow, secret, ctx);
+        escrow_dst::withdraw<CoinType1, CoinType2>(clock, escrow, secret, ctx);
 
     }
 
     /// Public withdraw from destination escrow (anyone can call)
-    public entry fun public_withdraw_dst<T>(
+    public entry fun public_withdraw_dst<CoinType1, CoinType2>(
         clock: &Clock,
-        escrow: DstEscrow<T>,
+        escrow: DstEscrow<CoinType1, CoinType2>,
         secret: vector<u8>,
         ctx: &mut TxContext
     ) {
         let escrow_id = object::id(&escrow);
         
-        escrow_dst::public_withdraw<T>(clock, escrow, secret, ctx);
+        escrow_dst::public_withdraw<CoinType1, CoinType2>(clock, escrow, secret, ctx);
 
     }
 
     /// Cancel source escrow (anyone can call)
-    public entry fun cancel_src<T>(
+    public entry fun cancel_src<CoinType1, CoinType2>(
         clock: &Clock,
-        escrow: SrcEscrow<T>,
+        escrow: SrcEscrow<CoinType1, CoinType2>,
         ctx: &mut TxContext
     ) {
         let escrow_id = object::id(&escrow);
         
-        escrow_src::cancel<T>(clock, escrow, ctx);
+        escrow_src::cancel<CoinType1, CoinType2>(clock, escrow, ctx);
 
   
     }
 
     /// Public cancel source escrow (anyone can call)
-    public entry fun public_cancel_src<T>(
+    public entry fun public_cancel_src<CoinType1, CoinType2>(
         clock: &Clock,
-        escrow: SrcEscrow<T>,
+        escrow: SrcEscrow<CoinType1, CoinType2>,
         ctx: &mut TxContext
     ) {
         let escrow_id = object::id(&escrow);
         
-        escrow_src::public_cancel<T>(clock, escrow, ctx);
+        escrow_src::public_cancel<CoinType1, CoinType2>(clock, escrow, ctx);
 
     }
 
     /// Cancel destination escrow (anyone can call)
-    public entry fun cancel_dst<T>(
+    public entry fun cancel_dst<CoinType1, CoinType2>(
         clock: &Clock,
-        escrow: DstEscrow<T>,
+        escrow: DstEscrow<CoinType1, CoinType2>,
         ctx: &mut TxContext
     ) {
         let escrow_id = object::id(&escrow);
         
-        escrow_dst::cancel<T>(clock, escrow, ctx);
+        escrow_dst::cancel<CoinType1, CoinType2>(clock, escrow, ctx);
 
     }
 
