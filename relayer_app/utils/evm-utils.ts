@@ -13,7 +13,6 @@ import * as Sdk from "@1inch/cross-chain-sdk";
 import {
   evmEscrowFactoryAddress,
   evmResolverContractAddress,
-  evmResolverPk,
 } from "@/lib/constants";
 import factoryContract from "../lib/contracts-metadata/EscrowFactory.json";
 import resolverContract from "../lib/contracts-metadata/Resolver.json";
@@ -63,7 +62,9 @@ export async function initEVMChain(cnf: ChainConfig): Promise<{
   resolverContract: string;
 }> {
   const { node, provider } = await getEVMProvider(cnf);
-  const deployer = new SignerWallet(cnf.ownerPrivateKey, provider);
+
+  const evm_resolver_pk = process.env.EVM_RESOLVER_PK!.slice(2);
+  const deployer = new SignerWallet(evm_resolver_pk, provider);
 
   // if (evmResolverContractAddress && evmEscrowFactoryAddress) {
   //   return {
@@ -103,7 +104,7 @@ export async function initEVMChain(cnf: ChainConfig): Promise<{
     [
       escrowFactory,
       cnf.limitOrderProtocol,
-      computeAddress(evmResolverPk), // resolver as owner of contract
+      computeAddress(process.env.EVM_RESOLVER_PK!), // resolver as owner of contract
     ],
     provider,
     deployer
