@@ -9,7 +9,9 @@ Custom written SUI modules ensures safety using HTLC contracts
 ## 🧱 Project Structure
 ---
 ├── relayer_app # Next.js relayer dApp (backend logic)
+
 ├── sui_contract # SUI Move modules for HTLC contracts
+
 └── evm_contract # EVM contracts: custom resolver + 1inch official contracts
 
 ## 🚀 Live Contracts
