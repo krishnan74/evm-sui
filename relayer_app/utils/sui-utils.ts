@@ -8,7 +8,7 @@ import { Transaction } from "@mysten/sui/transactions";
 import { TransactionArgument } from "@mysten/sui/transactions";
 import { Immutables } from "../lib/types";
 import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519";
-import { ChainConfig } from "@/lib/config";
+import { ChainConfig } from "@/lib/evm-to-sui-config";
 import {
   suiEscrowFactoryAddress,
   suiResolverContractAddress,
@@ -63,7 +63,11 @@ export async function deployDestinationEscrow(
 
   txb.moveCall({
     target: `${packageObjectId}::resolver::deploy_dst`,
-    typeArguments: ["0x2::sui::SUI"],
+    typeArguments: [
+      // config.chain.destination.tokens.USDC.address,
+      "0xa1ec7fc00a6f40db9693ad1415d0c193ad3906494428cf252621037bd7117e29::usdc::USDC",
+      "0x2::sui::SUI",
+    ],
     arguments: [
       txb.object("0x6"), // Clock object reference
       escrowCoin, // Coin<T> object reference
@@ -115,7 +119,11 @@ export async function suiWithdraw(
 
   tx.moveCall({
     target: `${packageObjectId}::resolver::${functionName}`,
-    typeArguments: ["0x2::sui::SUI"],
+    typeArguments: [
+      // config.chain.destination.tokens.USDC.address,
+      "0xa1ec7fc00a6f40db9693ad1415d0c193ad3906494428cf252621037bd7117e29::usdc::USDC",
+      "0x2::sui::SUI",
+    ],
     arguments: [
       tx.object("0x6"), // clock object id (shared)
       tx.object(escrowId), // escrow object id

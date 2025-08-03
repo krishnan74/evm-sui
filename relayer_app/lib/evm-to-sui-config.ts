@@ -38,7 +38,7 @@ export const config = {
       chainId: Sdk.NetworkEnum.BASE_SEPOLIA,
       url: fromEnv.SRC_CHAIN_RPC,
       createFork: fromEnv.SRC_CHAIN_CREATE_FORK,
-      limitOrderProtocol: "0x2fd469547443Fd2E33dc06BDA46262A2830acaC8",
+      limitOrderProtocol: "0xE53136D9De56672e8D2665C98653AC7b8A60Dc44",
       wrappedNative: "0x4200000000000000000000000000000000000006",
       ownerPrivateKey: "",
       tokens: {
@@ -52,7 +52,7 @@ export const config = {
       chainId: Sdk.NetworkEnum.SUI,
       url: getFullnodeUrl("testnet"),
       createFork: false,
-      limitOrderProtocol: "0x2fd469547443Fd2E33dc06BDA46262A2830acaC8",
+      limitOrderProtocol: "0xE53136D9De56672e8D2665C98653AC7b8A60Dc44",
       wrappedNative: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
       ownerPrivateKey: "",
       tokens: {

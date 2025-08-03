@@ -1,4 +1,4 @@
-import { ChainConfig, config } from "@/lib/config";
+import { ChainConfig, config } from "@/lib/evm-to-sui-config";
 import { createServer, CreateServerReturnType } from "prool";
 import {
   computeAddress,
@@ -14,7 +14,7 @@ import {
   evmEscrowFactoryAddress,
   evmResolverContractAddress,
 } from "@/lib/constants";
-import factoryContract from "../lib/contracts-metadata/EscrowFactory.json";
+import factoryContract from "../lib/contracts-metadata/TestEscrowFactory.json";
 import resolverContract from "../lib/contracts-metadata/Resolver.json";
 
 const { Address } = Sdk;
@@ -66,24 +66,24 @@ export async function initEVMChain(cnf: ChainConfig): Promise<{
   const evm_resolver_pk = process.env.EVM_RESOLVER_PK!.slice(2);
   const deployer = new SignerWallet(evm_resolver_pk, provider);
 
-  if (evmResolverContractAddress && evmEscrowFactoryAddress) {
-    return {
-      node: node,
-      provider,
-      resolverContract: evmResolverContractAddress,
-      escrowFactory: evmEscrowFactoryAddress,
-    };
-  }
+  // if (evmResolverContractAddress && evmEscrowFactoryAddress) {
+  //   return {
+  //     node: node,
+  //     provider,
+  //     resolverContract: evmResolverContractAddress,
+  //     escrowFactory: evmEscrowFactoryAddress,
+  //   };
+  // }
 
-  const resolverContractAddress = "0x02f9720c42E86577e160840C11c8dBA9010627Cd";
-  const escrowFactoryAddress = "0xA162fc8a1700A15eB9e8B734056201205d48124e";
+  // const resolverContractAddress = "0x02f9720c42E86577e160840C11c8dBA9010627Cd";
+  // const escrowFactoryAddress = "0xA162fc8a1700A15eB9e8B734056201205d48124e";
 
   // deploy EscrowFactory
   const escrowFactory = await deployEVMContract(
     factoryContract,
     [
       cnf.limitOrderProtocol,
-      cnf.wrappedNative, // feeToken,
+      "0x4200000000000000000000000000000000000006", // feeToken,
       Address.fromBigInt(BigInt(0)).toString(), // accessToken,
       deployer.address, // owner
       60 * 30, // src rescue delay
