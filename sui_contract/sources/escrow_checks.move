@@ -102,4 +102,11 @@ module sui_contract::escrow_checks {
         assert!(vector::length(&hash) == 32, E_INVALID_HASH_LENGTH);
         hash
     }
+
+    public entry fun only_valid_secret_test_check(secret: vector<u8>, hashlock: vector<u8>){
+        assert!(vector::length(&secret) > 0, E_INVALID_SECRET_LENGTH);
+        let computed_hash = hash::keccak256(&secret);
+        assert!(vector::length(&computed_hash) == 32, E_INVALID_HASH_LENGTH);
+        assert!(computed_hash == hashlock, E_HASH_MISMATCH);
+    }
 }
