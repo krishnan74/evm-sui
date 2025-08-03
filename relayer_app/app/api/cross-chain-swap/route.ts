@@ -179,8 +179,8 @@ export async function POST(req: NextRequest) {
       salt: Sdk.randBigInt(BigInt(1000)),
       maker: new Address(await srcChainUser.getAddress()),
       // receiver: new Address(await srcChainResolver.getAddress()),
-      makingAmount: parseUnits("1", makingAmount), // 1 USDC
-      takingAmount: BigInt(takingAmount),
+      makingAmount: parseUnits(makingAmount, 6), // 1 USDC
+      takingAmount: BigInt(takingAmount), // 1 USDC in SUI
       makerAsset: new Address(config.chain.source.tokens.USDC.address),
       takerAsset: new Address(
         config.chain.destination.tokens.USDC.address.slice(0, 42)
@@ -199,8 +199,8 @@ export async function POST(req: NextRequest) {
       }),
       srcChainId: Sdk.NetworkEnum.ETHEREUM,
       dstChainId: Sdk.NetworkEnum.BINANCE,
-      srcSafetyDeposit: parseEther(srcSafetyDeposit), // 1 USDC
-      dstSafetyDeposit: BigInt(dstSafetyDeposit), // 1 USDC
+      srcSafetyDeposit: parseEther(srcSafetyDeposit), //
+      dstSafetyDeposit: BigInt(dstSafetyDeposit * 10 ** 9), // 1 SUI
     },
     {
       auction: new Sdk.AuctionDetails({

@@ -9,17 +9,22 @@ export async function getBalances(
   srcToken: string,
   dstToken: string
 ): Promise<{
-  src: { user: bigint; resolver: bigint };
-  dst: { user: bigint; resolver: bigint };
+  src: { user: number; resolver: number };
+  dst: { user: number; resolver: number };
 }> {
+  function formatBalance(balance: bigint): number {
+    // Divide by 1_000_000n (same as 1e6n) and convert to number
+    return Number(balance) / 1_000_000;
+  }
+
   return {
     src: {
-      user: await srcChainUser.tokenBalance(srcToken),
-      resolver: await srcChainResolver.tokenBalance(srcToken),
+      user: formatBalance(await srcChainUser.tokenBalance(srcToken)),
+      resolver: formatBalance(await srcChainResolver.tokenBalance(srcToken)),
     },
     dst: {
-      user: await dstChainUser.tokenBalance(dstToken),
-      resolver: await dstChainResolver.tokenBalance(dstToken),
+      user: formatBalance(await dstChainUser.tokenBalance(dstToken)),
+      resolver: formatBalance(await dstChainResolver.tokenBalance(dstToken)),
     },
   };
 }
