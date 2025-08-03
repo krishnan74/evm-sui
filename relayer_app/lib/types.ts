@@ -34,5 +34,49 @@ export type EVMChain = {
 export type SUIChain = {
   provider: SuiClient;
   escrowFactory: string;
-  resolver: string;
+  resolverContract: string;
+};
+
+export type MockOrder = {
+  orderHash?: string;
+  escrowFactory: string;
+  salt: bigint;
+  maker: string;
+  makingAmount: bigint;
+  takingAmount: bigint;
+  makerAsset: string;
+  takerAsset: string;
+
+  hashLock: string;
+  timeLocks: {
+    srcWithdrawal: bigint;
+    srcPublicWithdrawal: bigint;
+    srcCancellation: bigint;
+    srcPublicCancellation: bigint;
+    dstWithdrawal: bigint;
+    dstPublicWithdrawal: bigint;
+    dstCancellation: bigint;
+  };
+
+  srcChainId: number;
+  dstChainId: number;
+  srcSafetyDeposit: bigint;
+  dstSafetyDeposit: bigint;
+
+  auction: {
+    initialRateBump: number;
+    points: any[];
+    duration: bigint;
+    startTime: bigint;
+  };
+
+  whitelist: Array<{
+    address: string;
+    allowFrom: bigint;
+  }>;
+
+  resolvingStartTime: bigint;
+
+  allowPartialFills: boolean;
+  allowMultipleFills: boolean;
 };

@@ -72,7 +72,7 @@ export class EVMEscrowFactory {
     return [
       Sdk.Immutables.new({
         orderHash: immutables[0],
-        hashLock: Sdk.HashLock.fromString(immutables[1]),
+        hashLock: immutables[1],
         maker: Sdk.Address.fromBigInt(immutables[2]),
         taker: Sdk.Address.fromBigInt(immutables[3]),
         token: Sdk.Address.fromBigInt(immutables[4]),

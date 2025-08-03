@@ -17,7 +17,7 @@ import {
 export async function initSUIChain(cnf: ChainConfig): Promise<{
   provider: SuiClient;
   escrowFactory: string;
-  resolver: string;
+  resolverContract: string;
 }> {
   const client = await getSUIClient();
 
@@ -32,7 +32,7 @@ export async function initSUIChain(cnf: ChainConfig): Promise<{
   return {
     provider: client,
     escrowFactory: suiEscrowFactoryAddress,
-    resolver: suiResolverContractAddress,
+    resolverContract: suiResolverContractAddress,
   };
 }
 

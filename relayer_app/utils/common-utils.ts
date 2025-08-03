@@ -2,10 +2,10 @@ import { EVMWallet } from "@/lib/evmWallet";
 import { SUIWallet } from "@/lib/suiWallet";
 
 export async function getBalances(
-  srcChainUser: EVMWallet,
-  dstChainUser: SUIWallet,
-  srcChainResolver: EVMWallet,
-  dstChainResolver: SUIWallet,
+  srcChainUser: EVMWallet | SUIWallet,
+  dstChainUser: SUIWallet | EVMWallet,
+  srcChainResolver: EVMWallet | SUIWallet,
+  dstChainResolver: SUIWallet | EVMWallet,
   srcToken: string,
   dstToken: string
 ): Promise<{
