@@ -34,6 +34,12 @@ export class SUIEscrowFactory {
       query,
     });
 
+    if (result.data.length === 0) {
+      throw new Error(
+        `No DstEscrowCreated events found for package ${this.packageId}.`
+      );
+    }
+
     return result.data;
   }
 }

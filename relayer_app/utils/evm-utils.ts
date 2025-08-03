@@ -67,6 +67,18 @@ export async function initEVMChain(cnf: ChainConfig): Promise<{
   const deployer = new SignerWallet(evm_resolver_pk, provider);
 
   // if (evmResolverContractAddress && evmEscrowFactoryAddress) {
+  //   console.log(
+  //     `[${cnf.chainId}]`,
+  //     `EVM Escrow factory contract loaded from`,
+  //     evmEscrowFactoryAddress
+  //   );
+
+  //   console.log(
+  //     `[${cnf.chainId}]`,
+  //     `EVM Resolver contract loaded from`,
+  //     evmResolverContractAddress
+  //   );
+
   //   return {
   //     node: node,
   //     provider,
@@ -92,11 +104,6 @@ export async function initEVMChain(cnf: ChainConfig): Promise<{
     provider,
     deployer
   );
-  console.log(
-    `[${cnf.chainId}]`,
-    `Escrow factory contract deployed to`,
-    escrowFactory
-  );
 
   // deploy Resolver contract
   const resolver = await deployEVMContract(
@@ -109,7 +116,6 @@ export async function initEVMChain(cnf: ChainConfig): Promise<{
     provider,
     deployer
   );
-  console.log(`[${cnf.chainId}]`, `Resolver contract deployed to`, resolver);
 
   return {
     node: node,

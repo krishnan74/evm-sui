@@ -59,7 +59,8 @@ export class SUIWallet {
       owner: await this.getAddress(),
       coinType,
     });
-    if (coins.data.length === 0) throw new Error(`No ${coinType} coins available`);
+    if (coins.data.length === 0)
+      throw new Error(`No ${coinType} coins available`);
     const coinObjectId = coins.data[0].coinObjectId;
 
     return coinObjectId;

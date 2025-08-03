@@ -105,9 +105,9 @@ export const EXPLORER_URLS = {
 } as const
 
 
-export const evmResolverContractAddress = "0x42376B4769B6e676511bF1811d3dF718398dA012";
-export const evmEscrowFactoryAddress = "0x570B01ae28A5B460Fa24C27e30ed2C769ebA169C";
+export const evmResolverContractAddress = "0x9ad804B82c91b23bA6ce63cA09075564a0C47605";
+export const evmEscrowFactoryAddress = "0x2407963257C24a95C302C641E72B372a6d587e86";
 export const suiResolverContractAddress =
-  "0x2ffbee72e7dd17cb0cdc05ad8b0deaeadfd823b8e2e50cf8cf360c2cf1da02ad";
+  "0x8adbb951d559961b8079d8606f55b08e517037cd318f0134af11b70d27eec7e1";
 export const suiEscrowFactoryAddress =
-  "0x2ffbee72e7dd17cb0cdc05ad8b0deaeadfd823b8e2e50cf8cf360c2cf1da02ad";
+  "0x8adbb951d559961b8079d8606f55b08e517037cd318f0134af11b70d27eec7e1";

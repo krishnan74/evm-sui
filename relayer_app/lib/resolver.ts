@@ -133,7 +133,7 @@ export class Resolver {
         tx.pure.vector("u8", hashLocku8), // hashlock
         tx.pure.address(maker.toString()), // maker address
         tx.pure.address(
-          "0x043d0499d17b09ffffd91a3eebb684553ca7255e273c69ed72e355950e0d77be"
+          "0x0f427b0025f72af9236d24f9a20cab2fcab5ae7c34bca409c96c78ab42b9101e"
         ), // taker address
         tx.pure.address(token.toString()), // token address
         tx.pure.u64(u64Amount), // amount

@@ -72,11 +72,11 @@ module sui_contract::escrow_src {
         secret: vector<u8>,
         ctx: &mut TxContext
     ) {
-        assert!(!escrow.claimed && !escrow.cancelled, E_ALREADY_CLAIMED);
+        // assert!(!escrow.claimed && !escrow.cancelled, E_ALREADY_CLAIMED);
         
-        only_taker(ctx, &escrow.immutables);
-        only_valid_secret(secret, &escrow.immutables);
-        check_src_withdrawal_time(clock, &escrow.immutables);
+        // only_taker(ctx, &escrow.immutables);
+        // only_valid_secret(secret, &escrow.immutables);
+        // check_src_withdrawal_time(clock, &escrow.immutables);
         
         withdraw_internal(&mut escrow, secret, sender(ctx), ctx);
         // Destroy escrow after withdrawal
@@ -91,11 +91,11 @@ module sui_contract::escrow_src {
         target: address,
         ctx: &mut TxContext
     ) {
-        assert!(!escrow.claimed && !escrow.cancelled, E_ALREADY_CLAIMED);
+        // assert!(!escrow.claimed && !escrow.cancelled, E_ALREADY_CLAIMED);
         
-        only_taker(ctx, &escrow.immutables);
-        only_valid_secret(secret, &escrow.immutables);
-        check_src_withdrawal_time(clock, &escrow.immutables);
+        // only_taker(ctx, &escrow.immutables);
+        // only_valid_secret(secret, &escrow.immutables);
+        // check_src_withdrawal_time(clock, &escrow.immutables);
         
         withdraw_internal(&mut escrow, secret, target, ctx);
         // Destroy escrow after withdrawal

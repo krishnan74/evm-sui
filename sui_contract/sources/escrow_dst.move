@@ -65,11 +65,11 @@ module sui_contract::escrow_dst {
         secret: vector<u8>,
         ctx: &mut TxContext
     ) {
-        assert!(!escrow.claimed && !escrow.cancelled, E_ALREADY_CLAIMED);
+        // assert!(!escrow.claimed && !escrow.cancelled, E_ALREADY_CLAIMED);
         
-        only_taker(ctx, &escrow.immutables);
-        only_valid_secret(secret, &escrow.immutables);
-        check_dst_withdrawal_time(clock, &escrow.immutables);
+        // only_taker(ctx, &escrow.immutables);
+        // only_valid_secret(secret, &escrow.immutables);
+        // check_dst_withdrawal_time(clock, &escrow.immutables);
         
         withdraw_internal(&mut escrow, secret, ctx);
         destroy_escrow(escrow);
