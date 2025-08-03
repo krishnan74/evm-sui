@@ -6,9 +6,9 @@ This project enables **cross-chain token swaps** between EVM-based chains (e.g.,
 
 ## 🧱 Project Structure
 ---
-├── relayer_app # Next.js relayer dApp (frontend/backend logic)
-├── sui_contract # SUI Move modules for escrow/resolver logic
-└── evm_contract # EVM contracts: custom resolver, escrow factory + 1inch official
+├── relayer_app # Next.js relayer dApp (backend logic)
+├── sui_contract # SUI Move modules for HTLC contracts
+└── evm_contract # EVM contracts: custom resolver + 1inch official contracts
 
 ## 🚀 Live Contracts
 
@@ -32,14 +32,12 @@ This project enables **cross-chain token swaps** between EVM-based chains (e.g.,
 Located in `/relayer_app`.
 
 ### ✨ Main Route
-- `pages/cross-chain-swap.tsx`: the core user interface for initiating swaps across chains.
+- `api/cross-chain-swap.ts`: the core api route for initiating swaps across chains.
 
 ### Features
-- Connect both **EVM** and **SUI** wallets.
-- Create and resolve swap orders.
-- Interact with both 1inch Fusion orders and custom escrow contracts.
-- Handles Dutch auctions via dynamic pricing graphs.
-- Toast messages, responsive UI, and smart contract transaction handling.
+- Connect both **EVM** and **SUI** blockchain.
+- 
+- Interact with both 1inch LOP protocol and custom escrow contracts.
 
 ---
 
@@ -47,10 +45,12 @@ Located in `/relayer_app`.
 
 Located in `/sui_contract`.
 
-- Implements `SrcEscrow` and `DstEscrow` object models
-- Safety deposit system to prevent griefing
-- Resolver Move module verifies and finalizes incoming orders
-- Factory module to deploy new escrows
+- Resolver Module
+- Escrow Factory Module 
+- Source Escrow Module
+- Destination Escrow Module
+- Structs and Checks Module 
+- Factory module to create new escrows
 
 ---
 
@@ -58,12 +58,10 @@ Located in `/sui_contract`.
 
 Located in `/evm_contract`.
 
-- Uses [1inch official Fusion contracts](https://github.com/1inch/fusion-contracts)
+- Uses [1inch official Cross Chain Swap contracts](https://github.com/1inch/cross-chain-swap)
 - Includes:
-  - Custom resolver for SUI bridging
+  - Custom resolver
   - Escrow logic for cross-chain safety
-  - Minimal LOP token implementation for testing
-  - Factory for escrows
 
 ---
 
@@ -72,7 +70,7 @@ Located in `/evm_contract`.
 ### Requirements
 - Node.js v18+
 - Sui CLI (`sui`), Sui SDK
-- Hardhat for EVM contracts
+- Foundry for EVM contracts
 
 ### Commands
 
@@ -88,9 +86,8 @@ cd ../sui_contract
 sui move build
 
 # Deploy SUI packages
-sui client publish --gas-budget 100000000
+sui client publish 
 
 # Compile & deploy EVM contracts (via Hardhat)
 cd ../evm_contract
-npx hardhat compile
-npx hardhat run scripts/deploy.ts --network baseSepolia
+forge build
