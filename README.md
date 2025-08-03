@@ -1,6 +1,8 @@
 # 🔁 EVM ↔ SUI Cross-Chain Swap via 1inch
 
-This project enables **cross-chain token swaps** between EVM-based chains (e.g., Base Sepolia) and the SUI blockchain, integrating **1inch Fusion**, **custom resolvers**, and **SUI Move contracts**.
+This project enables **cross-chain token swaps** between EVM-based chains (e.g., Base Sepolia) and the SUI blockchain, integrating **1inch LOP**, **custom resolvers**, and **SUI Move contracts**.
+
+Custom written SUI modules ensures safety using HTLC contracts 
 
 ---
 
