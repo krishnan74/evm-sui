@@ -1,0 +1,64 @@
+diff --git a/node_modules/@1inch/limit-order-sdk/dist/cjs/constants.js b/node_modules/@1inch/limit-order-sdk/dist/cjs/constants.js
+index cdced30..9867b4f 100644
+--- a/node_modules/@1inch/limit-order-sdk/dist/cjs/constants.js
++++ b/node_modules/@1inch/limit-order-sdk/dist/cjs/constants.js
+@@ -2,7 +2,7 @@
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.getLimitOrderContract = exports.ZX = void 0;
+ exports.ZX = '0x';
+-const ONE_INCH_LIMIT_ORDER_V4 = '0x111111125421ca6dc452d289314280a0f8842a65';
++const ONE_INCH_LIMIT_ORDER_V4 = '0xE53136D9De56672e8D2665C98653AC7b8A60Dc44';
+ const ONE_INCH_LIMIT_ORDER_V4_ZK_SYNC = '0x6fd4383cb451173d5f9304f041c7bcbf27d561ff';
+ const getLimitOrderContract = (chainId) => {
+     if (chainId === 324) {
+diff --git a/node_modules/@1inch/limit-order-sdk/dist/cjs/limit-order/eip712/domain.js b/node_modules/@1inch/limit-order-sdk/dist/cjs/limit-order/eip712/domain.js
+index 74b7a85..3b14ac4 100644
+--- a/node_modules/@1inch/limit-order-sdk/dist/cjs/limit-order/eip712/domain.js
++++ b/node_modules/@1inch/limit-order-sdk/dist/cjs/limit-order/eip712/domain.js
+@@ -17,6 +17,6 @@ exports.Order = [
+     { name: 'takingAmount', type: 'uint256' },
+     { name: 'makerTraits', type: 'uint256' }
+ ];
+-exports.LimitOrderV4TypeDataName = '1inch Aggregation Router';
+-exports.LimitOrderV4TypeDataVersion = '6';
++exports.LimitOrderV4TypeDataName = '1inch Limit Order Protocol';
++exports.LimitOrderV4TypeDataVersion = '4';
+ //# sourceMappingURL=domain.js.map
+\ No newline at end of file
+diff --git a/node_modules/@1inch/limit-order-sdk/dist/esm/constants.js b/node_modules/@1inch/limit-order-sdk/dist/esm/constants.js
+index edc3dae..56c8b7e 100644
+--- a/node_modules/@1inch/limit-order-sdk/dist/esm/constants.js
++++ b/node_modules/@1inch/limit-order-sdk/dist/esm/constants.js
+@@ -1,5 +1,5 @@
+ export const ZX = '0x';
+-const ONE_INCH_LIMIT_ORDER_V4 = '0x111111125421ca6dc452d289314280a0f8842a65';
++const ONE_INCH_LIMIT_ORDER_V4 = '0xE53136D9De56672e8D2665C98653AC7b8A60Dc44';
+ const ONE_INCH_LIMIT_ORDER_V4_ZK_SYNC = '0x6fd4383cb451173d5f9304f041c7bcbf27d561ff';
+ export const getLimitOrderContract = (chainId) => {
+     if (chainId === 324) {
+diff --git a/node_modules/@1inch/limit-order-sdk/dist/esm/limit-order/eip712/domain.js b/node_modules/@1inch/limit-order-sdk/dist/esm/limit-order/eip712/domain.js
+index f42017e..9446447 100644
+--- a/node_modules/@1inch/limit-order-sdk/dist/esm/limit-order/eip712/domain.js
++++ b/node_modules/@1inch/limit-order-sdk/dist/esm/limit-order/eip712/domain.js
+@@ -14,6 +14,6 @@ export const Order = [
+     { name: 'takingAmount', type: 'uint256' },
+     { name: 'makerTraits', type: 'uint256' }
+ ];
+-export const LimitOrderV4TypeDataName = '1inch Aggregation Router';
+-export const LimitOrderV4TypeDataVersion = '6';
++export const LimitOrderV4TypeDataName = '1inch Limit Order Protocol';
++export const LimitOrderV4TypeDataVersion = '4';
+ //# sourceMappingURL=domain.js.map
+\ No newline at end of file
+diff --git a/node_modules/@1inch/limit-order-sdk/dist/types/src/limit-order/eip712/domain.d.ts b/node_modules/@1inch/limit-order-sdk/dist/types/src/limit-order/eip712/domain.d.ts
+index f4c38bc..33414bd 100644
+--- a/node_modules/@1inch/limit-order-sdk/dist/types/src/limit-order/eip712/domain.d.ts
++++ b/node_modules/@1inch/limit-order-sdk/dist/types/src/limit-order/eip712/domain.d.ts
+@@ -6,5 +6,5 @@ export declare const Order: {
+     name: string;
+     type: string;
+ }[];
+-export declare const LimitOrderV4TypeDataName = "1inch Aggregation Router";
+-export declare const LimitOrderV4TypeDataVersion = "6";
++export declare const LimitOrderV4TypeDataName = "1inch Limit Order Protocol";
++export declare const LimitOrderV4TypeDataVersion = "4";
